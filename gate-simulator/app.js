@@ -17,11 +17,9 @@ server.post(['/payment', '/credit'], (req, res) => {
     res.status(400).end();
     return;
   }
-
   res.send({
     id: uuidv4(),
     status: item.status,
   });
 });
-
 server.listen(process.env.PORT || 9999);
