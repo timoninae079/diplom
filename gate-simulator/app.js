@@ -24,5 +24,4 @@ server.post(['/payment', '/credit'], (req, res) => {
   });
 });
 
-// get port from environment variable or just use 9999
 server.listen(process.env.PORT || 9999);
