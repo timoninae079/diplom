@@ -5,9 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1084d2a5-57ea-403c-8fe7-6f0780aec2a4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/data/ApiUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/data/Card.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/page/CreditPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/page/PaymentPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/page/StartPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/test/BuyingTripApiTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/test/BuyingTripDbTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/test/BuyingTripUiTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/incorrectValues.cvs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/netology/Main.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +92,11 @@
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\КОМПУКТЕР\diplom\src\test\java" />
+    </key>
+  </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="open JavaQA-Team-Diplom" />
