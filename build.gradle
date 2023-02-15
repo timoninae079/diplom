@@ -1,51 +1,47 @@
 plugins {
     id 'java'
-    id 'io.qameta.allure' version '2.9.6'
+    id 'io.freefair.lombok' version '4.1.2'
+    id 'io.qameta.allure' version '2.8.1'
 }
 
 group 'ru.netology'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 11
+sourceCompatibility = 1.8
+
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
 allure {
-    version = '2.17.2'
-    //Если используется JUnit5, то добавляется:
-    useJUnit5 { version = '2.17.2' }
-    //версия должна совпадать с версией allure
+    autoconfigure = true
+    version = '2.13.0'
+    useJUnit5 {
+        version = '2.13.0'
+    }
 }
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
-
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    testImplementation 'com.codeborne:selenide:6.2.0'
-    testImplementation 'io.qameta.allure:allure-selenide:2.17.2'
-    testImplementation 'com.github.javafaker:javafaker:1.0.2'
-    testImplementation 'org.slf4j:slf4j-simple:1.7.33'
-    testImplementation 'mysql:mysql-connector-java:8.0.28'
-    testImplementation 'org.postgresql:postgresql:42.3.3'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
+    testImplementation 'com.codeborne:selenide:5.3.1'
+    testImplementation 'mysql:mysql-connector-java:8.0.18'
+    testImplementation 'postgresql:postgresql:9.0-801.jdbc4'
     testImplementation 'commons-dbutils:commons-dbutils:1.7'
-
-    testCompileOnly 'org.projectlombok:lombok:1.18.22'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'io.rest-assured:rest-assured:4.2.0'
+    testImplementation 'com.google.code.gson:gson:2.8.6'
+    testImplementation 'io.qameta.allure:allure-selenide:2.13.0'
 }
+
 
 test {
     useJUnitPlatform()
-    //В тестах, при вызове `gradlew test -Dheadless=true`
-    //будет передаваться этот параметр в JVM (где его подтянет Selenide)
-    systemProperty 'selenide.headless', System.getProperty('headless')
-    //Выбирается одна из баз данных:
-    //Для работы с базой данных mySQL (со строки ниже необходимо снять комментарий):
-    systemProperty 'datasource', System.getProperty('datasource', 'jdbc:mysql://185.119.57.164:3306/base_mysql')
-    //Для работы с базой данных postgreSQL (со строки ниже необходимо снять комментарий):
-    //systemProperty 'datasource', System.getProperty('datasource', 'jdbc:postgresql://185.119.57.164:5432/base_postgresql')
+    systemProperty 'selenide.headless', System.getProperty('selenide.headless')
+    systemProperty 'db.url', System.getProperty('db.url')
+    systemProperty 'db.user', System.getProperty('db.user', "app")
+    systemProperty 'db.password', System.getProperty('db.password', "pass")
+    systemProperty 'sut.url', System.getProperty('sut.url', "http://localhost:8080/")
 }

@@ -1,38 +1,35 @@
-## Execute 'docker-compose -p qa-diploma up -d --force-recreate' --build
-## to start all containers in daemon mode
-## Where:
-##      '-p qa-diploma' -- specifies container's prefix (project name)
-##      '-d' -- enables daemon mode
-##      '--force-recreate' -- forces re-recreating of all containers
-
 version: '3.7'
 services:
-
-  gate-simulator:
-    build: .
-    image: gate-simulator:1.0
+  node-app:
+    build: gate-simulator
+    image: node-app:1.0
+    container_name: node
     ports:
       - '9999:9999'
 
-  mysql:
-    image: mysql:8.0
-    volumes:
-      - ./data/mysql:/var/lib/mysql
-    ports:
-      - '3306:3306'
-    environment:
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes
-      - MYSQL_DATABASE=base_mysql
-      - MYSQL_USER=app
-      - MYSQL_PASSWORD=pass
-
-  postgresql:
-    image: postgres:12-alpine
+  postgres:
+    image: postgres:12.0-alpine
+    container_name: pstg-container
     ports:
       - '5432:5432'
-    volumes:
-      - ./data/postgres:/var/lib/postgres
+    #    для Windows 10 Pro на Mac не работает:
+    #    volumes:
+    #      - ./data_postgres:/var/lib/postgresql/data
+
     environment:
-      - POSTGRES_DB=base_postgresql
-      - POSTGRES_USER=app
       - POSTGRES_PASSWORD=pass
+      - POSTGRES_USER=app
+      - POSTGRES_DB=app
+
+  mysql:
+    image: mysql:8.0.18
+    container_name: mysql-container
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./data_mysql:/var/lib/mysql
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=app
+      - MYSQL_USER=app
+      - MYSQL_PASSWORD=pass
