@@ -1,3 +1,2 @@
- rootProject.name = 'diplom'
-include 'doc'
+rootProject.name = 'diplom'
 
