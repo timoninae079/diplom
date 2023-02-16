@@ -1,50 +1,59 @@
 package ru.netology.page;
 
 import com.codeborne.selenide.SelenideElement;
-import data.Card;
 
-import static com.codeborne.selenide.Condition.exactText;
-import static com.codeborne.selenide.Condition.text;
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class PaymentPage {
-    private SelenideElement heading = $$("h3").find(text("Оплата по карте"));
-    private SelenideElement cardNumberField = $(byText("Номер карты")).parent().$(".input__control");
-    private SelenideElement monthField = $(byText("Месяц")).parent().$(".input__control");
-    private SelenideElement yearField = $(byText("Год")).parent().$(".input__control");
-    private SelenideElement ownerField = $(byText("Владелец")).parent().$(".input__control");
-    private SelenideElement cvcField = $(byText("CVC/CVV")).parent().$(".input__control");
-    private SelenideElement continueButton = $$("button").find(exactText("Продолжить"));
-    private SelenideElement notificationOK = $(".notification_status_ok");
-    private SelenideElement notificationError = $(".notification_status_error");
-    private SelenideElement inputInvalid = $(".input__sub");
 
-    public PaymentPage() {
-        heading.shouldBe(visible);
+    final SelenideElement fieldCardNumber = $("[placeholder='0000 0000 0000 0000']");
+
+    final SelenideElement fieldMonth = $("[placeholder='08']");
+
+    final SelenideElement fieldYear = $("[placeholder='22']");
+
+    final SelenideElement fieldOwner = $$("[class='input__control']").get(3);
+
+    final SelenideElement fieldCvc = $("[placeholder='999']");
+
+    final SelenideElement buttonContinue = $(byText("Продолжить"));
+
+    final SelenideElement bankApproved = $(withText("Операция одобрена Банком."));
+
+    final SelenideElement errorFormat = $(withText("Неверный формат"));
+
+    final SelenideElement errorBankRefusal = $(withText("Ошибка! Банк отказал в проведении операции."));
+
+    final SelenideElement invalidDurationCard = $(withText("Неверно указан срок действия карты"));
+
+    final SelenideElement cardExpired = $(withText("Истёк срок действия карты"));
+
+    final SelenideElement requiredField = $(withText("Поле обязательно для заполнения"));
+
+    public void errorMessageInvalidFormat() {
+        errorFormat.shouldBe(visible, Duration.ofSeconds(2));
+    }
+    public void errorMessageWhenOwnerFieldIsEmpty() {
+        requiredField.shouldBe(visible, Duration.ofSeconds(2));
+    }
+    public void expectApprovalFromBank() {
+        bankApproved.should(visible, Duration.ofSeconds(20));
+    }
+    public void expectRejectionFromBank() {
+        errorBankRefusal.shouldBe(visible, Duration.ofSeconds(20));
     }
 
-    public void fillData(Card card) {
-        cardNumberField.setValue(card.getNumber());
-        monthField.setValue(card.getMonth());
-        yearField.setValue(card.getYear());
-        ownerField.setValue(card.getHolder());
-        cvcField.setValue(card.getCvc());
-        continueButton.click();
+    public void errorMessageInvalidDuration() {
+        invalidDurationCard.shouldBe(visible);
     }
 
-    public void notificationOkIsVisible() {
-        notificationOK.waitUntil(visible, 12000);
+    public void errorMessageInvalidYear() {
+        cardExpired.shouldBe(visible);
     }
-
-    public void notificationErrorIsVisible() {
-        notificationError.waitUntil(visible, 12000);
-    }
-
-    public boolean inputInvalidIsVisible() {
-        return inputInvalid.isDisplayed();
-    }
-
 }
