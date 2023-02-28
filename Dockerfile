@@ -1,6 +1,6 @@
-FROM node:erbium-mysql:8.0.18
+FROM node:8.16.2-alpine
 WORKDIR /opt/app
-COPY ./gate-simulator .
+COPY . .
 RUN npm install
 CMD ["npm", "start"]
 EXPOSE 9999
