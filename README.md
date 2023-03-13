@@ -36,7 +36,7 @@ java -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app -jar artifacts
 
 
 
-gradlew clean test -Ddb.url=jdbc:postgresql://localhost:5432/app
+  ./gradlew clean test -Ddb.url=jdbc:postgresql://localhost:5432/app
 
 #### Для просмотра отчета Allure в терминале ввести команду:
 
