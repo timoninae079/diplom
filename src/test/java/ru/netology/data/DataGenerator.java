@@ -12,7 +12,9 @@ public class DataGenerator {
     private static final String invalidCard = "4444 4444 4444 4442";
     private static final String [] numbers = new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
 
-    private DataGenerator() {}
+    private DataGenerator() {
+
+    }
 
     private static String getIncompleteCardNumber() {
         //Номер карты без последней цифры:
@@ -36,15 +38,18 @@ public class DataGenerator {
         return LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
     }
 
-    private static String getOverdueYear() {    //Просроченный год, текущий год - 1 год:
+    private static String getOverdueYear() {
+        //Просроченный год, текущий год - 1 год:
         return LocalDate.now().minusYears(1).format(DateTimeFormatter.ofPattern("yy"));
     }
 
-    private static String getNextYear() {    //Следующий год, текущий год + 1 год:
+    private static String getNextYear() {
+        //Следующий год, текущий год + 1 год:
         return LocalDate.now().plusYears(1).format(DateTimeFormatter.ofPattern("yy"));
     }
 
-    private static String getYearFromFuture() {    //Год из будущего, текущий год + 6 лет:
+    private static String getYearFromFuture() {
+        //Год из будущего, текущий год + 6 лет:
         return LocalDate.now().plusYears(6).format(DateTimeFormatter.ofPattern("yy"));
     }
 

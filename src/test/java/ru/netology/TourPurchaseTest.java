@@ -23,7 +23,7 @@ public class TourPurchaseTest {
 
     @BeforeEach
     public void openPage() {
-        open("http//localhost:8080");
+        open("");
     }
 
     @AfterAll

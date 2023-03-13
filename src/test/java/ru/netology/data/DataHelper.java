@@ -7,7 +7,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import java.sql.DriverManager;
 
 public class DataHelper {
-    private static final String datasource = System.getProperty("db.url");
+    private static final String datasource = System.getProperty("datasource");
 
     @SneakyThrows
     public static void databaseCleanUp() {

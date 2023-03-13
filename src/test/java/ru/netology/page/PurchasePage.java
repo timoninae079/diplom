@@ -9,7 +9,6 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class PurchasePage {
-    //Кнопка "Купить" и заголовок "Оплата по карте":
     private final SelenideElement buyButton = $(byText("Купить"));
     private final SelenideElement buyHeading = $(byText("Оплата по карте"));
     //Кнопка "Купить в кредит" и заголовок "Кредит по данным карты":
