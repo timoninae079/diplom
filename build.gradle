@@ -23,17 +23,17 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains:annotations:20.1.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    testImplementation 'io.rest-assured:rest-assured:5.1.1'
-    testImplementation 'mysql:mysql-connector-java:8.0.29'
-    testImplementation 'org.postgresql:postgresql:42.3.6'
-    testImplementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'org.jetbrains:annotations:24.0.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testImplementation 'io.rest-assured:rest-assured:5.3.0'
+    testImplementation 'mysql:mysql-connector-java:8.0.32'
+    testImplementation 'org.postgresql:postgresql:42.5.4'
+    testImplementation 'com.google.code.gson:gson:2.10.1'
     testImplementation 'commons-dbutils:commons-dbutils:1.7'
-    testImplementation 'com.codeborne:selenide:6.6.3'
+    testImplementation 'com.codeborne:selenide:6.12.3'
     testImplementation 'com.github.javafaker:javafaker:1.0.2'
-    testImplementation 'io.qameta.allure:allure-selenide:2.18.1'
-    testImplementation 'org.slf4j:slf4j-simple:1.7.36'
+    testImplementation 'io.qameta.allure:allure-selenide:2.21.0'
+    testImplementation 'org.slf4j:slf4j-simple:2.0.5'
 }
 
 tasks.withType(JavaCompile) {
@@ -43,7 +43,6 @@ tasks.withType(JavaCompile) {
 test {
     useJUnitPlatform()
     systemProperty 'selenide.headless', System.getProperty('selenide.headless')
-    systemProperty 'db.url', System.getProperty('db.url')
     systemProperty 'db.url', System.getProperty('db.url', 'jdbc:mysql://localhost:3306/app')
     //systemProperty 'db.url', System.getProperty('db.url', 'jdbc:postgresql://localhost:5432/app')
     systemProperty 'db.user', System.getProperty('db.user', "app")

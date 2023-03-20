@@ -1,2 +1,4 @@
-package ru.netology.tests;public class MainTest {
+package ru.netology.tests;
+
+public class MainTest {
 }

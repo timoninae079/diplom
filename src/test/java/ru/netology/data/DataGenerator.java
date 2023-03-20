@@ -2,6 +2,7 @@ package ru.netology.data;
 
 import com.github.javafaker.Faker;
 import lombok.Value;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -35,6 +36,7 @@ public class DataGenerator {
     }
 
     private static String getValidMonth() {
+
         return LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
     }
 
@@ -53,7 +55,7 @@ public class DataGenerator {
         return LocalDate.now().plusYears(6).format(DateTimeFormatter.ofPattern("yy"));
     }
 
-    private static String getValidYear() {
+    private static @NotNull String getValidYear() {
         return LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
     }
 
@@ -146,10 +148,10 @@ public class DataGenerator {
 
     @Value
     public static class CardInfo {
-        private String numberCard;
-        private String month;
-        private String year;
-        private String owner;
-        private String cvc;
+        String numberCard;
+        String month;
+        String year;
+        String owner;
+        String cvc;
     }
 }
