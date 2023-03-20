@@ -12,6 +12,7 @@ import static com.codeborne.selenide.Selenide.$$;
 
 public class PaymentPage {
 
+    final SelenideElement buyHeading = $(byText("Оплата по карте"));
     final SelenideElement fieldCardNumber = $("[placeholder='0000 0000 0000 0000']");
 
     final SelenideElement fieldMonth = $("[placeholder='08']");
@@ -54,7 +55,7 @@ public class PaymentPage {
         bankApproved.should(visible, Duration.ofSeconds(20));
     }
 
-    public void errorMessageInvalidDuration() {п
+    public void errorMessageInvalidDuration() {
         invalidDurationCard.shouldBe(visible);
     }
 

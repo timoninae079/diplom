@@ -3,10 +3,7 @@ package ru.netology.tests;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import ru.netology.page.CreditPage;
 import ru.netology.page.MainPage;
 import ru.netology.page.PaymentPage;
@@ -26,6 +23,7 @@ public class CreditTest {
 
     @BeforeAll
     public static void setUpAll() {
+
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
 
@@ -36,7 +34,7 @@ public class CreditTest {
     }
 
     @Test
-    void test(){
+    void test() {
         main.cardCredit();
     }
 
@@ -64,7 +62,7 @@ public class CreditTest {
     @SneakyThrows
     @DisplayName("Получение кредита на покупку по валидной карте")
     public void shouldCreditValidCard() {
-        main.cardPayment();
+        main.cardCredit();
         var info = getApprovedCard();
         credit.sendingData(info);
         //Время отправки данных в базу данных, в секундах:
@@ -79,10 +77,12 @@ public class CreditTest {
         //Проверка вывода соответствующего уведомления пользователю на странице покупок:
         credit.bankApproved();
     }
+
     @Test
     @SneakyThrows
     @DisplayName("Получение кредита на покупку по не валидной карте")
     public void shouldCreditInvalidCard() {
+        main.cardCredit();
         var info = getDeclinedCard();
         credit.sendingData(info);
         //Время отправки данных в базу данных, в секундах:
@@ -96,6 +96,113 @@ public class CreditTest {
         assertEquals(creditRequestInfo.getBank_id(), orderInfo.getCredit_id());
         //Проверка вывода соответствующего уведомления пользователю на странице покупок:
         credit.bankApproved();
+    }
+
+    @Nested
+    //Тесты на валидацию полей кредитной формы:
+    public class CreditFormFieldValidation {
+
+        @BeforeEach
+        public void setPayment() {
+
+        }
+
+
+        @Test
+        @DisplayName("Отправка пустой формы")
+        public void shouldEmpty() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Номер карты', пустое поле")
+        public void shouldEmptyCardNumberField() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Номер карты', не полный номер карты")
+        public void shouldCardWithIncompleteCardNumber() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Месяц', пустое поле")
+        public void shouldEmptyMonthField() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Месяц', просроченный месяц")
+        public void shouldCardWithOverdueMonth() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Месяц', нижнее негативное значение '00'")
+        public void shouldCardWithLowerMonthValue() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Месяц', верхнее негативное значение '13'")
+        public void shouldCardWithGreaterMonthValue() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Год', пустое поле")
+        public void shouldEmptyYearField() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Год', просроченный год")
+        public void shouldCardWithOverdueYear() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Год', год из отдаленного будущего")
+        public void shouldCardWithYearFromFuture() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Владелец', пустое поле")
+        public void shouldEmptyOwnerField() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Владелец', с пробелом или дефисом")
+        public void shouldCardWithSpaceOrHyphenOwner() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Владелец', с несколькими спец символами")
+        public void shouldCardWithSpecialSymbolsOwner() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'Владелец', с цифрами")
+        public void shouldCardWithNumbersOwner() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'CVC/CVV', пустое поле")
+        public void shouldEmptyCVCField() {
+
+        }
+
+        @Test
+        @DisplayName("Поле 'CVC/CVV', не полный номер")
+        public void shouldCardWithIncompleteCVC() {
+
+        }
     }
 }
 

@@ -13,6 +13,8 @@ import static com.codeborne.selenide.Selenide.$$;
 
 public class CreditPage {
 
+    final SelenideElement creditHeading = $(byText("Кредит по данным карты"));
+
     final SelenideElement fieldCardNumber = $("[placeholder='0000 0000 0000 0000']");
 
     final SelenideElement fieldMonth = $("[placeholder='08']");
