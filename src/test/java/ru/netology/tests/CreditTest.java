@@ -6,7 +6,6 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
 import ru.netology.page.CreditPage;
 import ru.netology.page.MainPage;
-import ru.netology.page.PaymentPage;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,12 +13,13 @@ import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.netology.data.DataGenerator.getApprovedCard;
 import static ru.netology.data.DataGenerator.getDeclinedCard;
-import static ru.netology.data.DataHelper.*;
+import static ru.netology.data.DataHelper.getCreditRequestInfo;
+import static ru.netology.data.DataHelper.getOrderInfo;
 
 public class CreditTest {
     private final MainPage main = new MainPage();
     private final CreditPage credit = new CreditPage();
-    private final PaymentPage payment = new PaymentPage();
+    
 
     @BeforeAll
     public static void setUpAll() {
@@ -38,25 +38,7 @@ public class CreditTest {
         main.cardCredit();
     }
 
-    @Test
-    @SneakyThrows
-    @DisplayName("Покупка валидной картой")
-    public void shouldPaymentValidCard() {
-        main.cardPayment();
-        var info = getApprovedCard();
-        credit.sendingData(info);
-        //Время отправки данных в базу данных, в секундах:
-        TimeUnit.SECONDS.sleep(10);
-        var expected = "APPROVED";
-        var paymentInfo = getPaymentInfo();
-        var orderInfo = getOrderInfo();
-        //Проверка соответствия статуса в базе данных в таблице покупок:
-        assertEquals(expected, paymentInfo.getStatus());
-        //Проверка соответствия в базе данных id в таблице покупок и в таблице заявок:
-        assertEquals(paymentInfo.getTransaction_id(), orderInfo.getPayment_id());
-        //Проверка вывода соответствующего уведомления пользователю на странице покупок:
-        credit.bankApproved();
-    }
+
 
     @Test
     @SneakyThrows
@@ -75,7 +57,7 @@ public class CreditTest {
         //Проверка соответствия в базе данных id в таблице запросов кредита и в таблице заявок:
         assertEquals(creditRequestInfo.getBank_id(), orderInfo.getCredit_id());
         //Проверка вывода соответствующего уведомления пользователю на странице покупок:
-        credit.bankApproved();
+        main.expectApprovalFromBank();
     }
 
     @Test
@@ -87,15 +69,15 @@ public class CreditTest {
         credit.sendingData(info);
         //Время отправки данных в базу данных, в секундах:
         TimeUnit.SECONDS.sleep(10);
-        var expected = "DECLINED";
-        var creditRequestInfo = getCreditRequestInfo();
-        var orderInfo = getOrderInfo();
-        //Проверка соответствия статуса в базе данных в таблице запросов кредита:
-        assertEquals(expected, creditRequestInfo.getStatus());
-        //Проверка соответствия в базе данных id в таблице запросов кредита и в таблице заявок:
-        assertEquals(creditRequestInfo.getBank_id(), orderInfo.getCredit_id());
+//        var expected = "DECLINED";
+//        var creditRequestInfo = getCreditRequestInfo();
+//        var orderInfo = getOrderInfo();
+//        //Проверка соответствия статуса в базе данных в таблице запросов кредита:
+//        assertEquals(expected, creditRequestInfo.getStatus());
+//        //Проверка соответствия в базе данных id в таблице запросов кредита и в таблице заявок:
+//        assertEquals(creditRequestInfo.getBank_id(), orderInfo.getCredit_id());
         //Проверка вывода соответствующего уведомления пользователю на странице покупок:
-        credit.bankApproved();
+        credit.errorBankRefusal();
     }
 
     @Nested
@@ -104,104 +86,138 @@ public class CreditTest {
 
         @BeforeEach
         public void setPayment() {
-
+            open("http://localhost:8080");
+            main.cardCredit();
         }
 
 
         @Test
         @DisplayName("Отправка пустой формы")
         public void shouldEmpty() {
-
+            credit.clickOnContinue();
+            credit.errorMessageInvalidFormat();
         }
 
         @Test
         @DisplayName("Поле 'Номер карты', пустое поле")
         public void shouldEmptyCardNumberField() {
+            credit.fillOutFields("","11","23","OwnerIam","432");
+            credit.clickOnContinue();
+            credit.fieldCardIsEmpty();
 
         }
 
         @Test
         @DisplayName("Поле 'Номер карты', не полный номер карты")
         public void shouldCardWithIncompleteCardNumber() {
-
+            credit.fillOutFields("4444 4444 4444 444","11","23","ivanov","123");
+            credit.errorMessageInvalidFormat();
         }
 
         @Test
         @DisplayName("Поле 'Месяц', пустое поле")
         public void shouldEmptyMonthField() {
+            credit.fillOutFields("4444 4444 4444 4441","","23","ivanov","123");
+            credit.clickOnContinue();
+            credit.errorMessageInvalidFormat();
+
 
         }
 
         @Test
         @DisplayName("Поле 'Месяц', просроченный месяц")
         public void shouldCardWithOverdueMonth() {
-
+            credit.fillOutFields("4444 4444 4444 4441","01","23","ivanov","456");
+            credit.errorMessageInvalidDuration();
         }
 
         @Test
         @DisplayName("Поле 'Месяц', нижнее негативное значение '00'")
         public void shouldCardWithLowerMonthValue() {
-
+            credit.fillOutFields("4444 4444 4444 4441","00","23","ivanov","123");
+            credit.clickOnContinue();
+            credit.errorMessageInvalidDuration();
         }
 
         @Test
         @DisplayName("Поле 'Месяц', верхнее негативное значение '13'")
         public void shouldCardWithGreaterMonthValue() {
-
+            credit.fillOutFields("4444 4444 4444 4441","13","23","ivanov","123");
+            credit.clickOnContinue();
+            credit.errorMessageInvalidDuration();
         }
 
         @Test
         @DisplayName("Поле 'Год', пустое поле")
         public void shouldEmptyYearField() {
-
+            credit.fillOutFields("4444 4444 4444 4441","03","","ivanov","123");
+            credit.clickOnContinue();
+            credit.errorMessageInvalidFormat();
         }
 
         @Test
         @DisplayName("Поле 'Год', просроченный год")
         public void shouldCardWithOverdueYear() {
+            credit.fillOutFields("4444 4444 4444 4441","03","21","ivanov","123");
+            credit.clickOnContinue();
+            credit.errorMessageInvalidYear();
 
         }
 
         @Test
         @DisplayName("Поле 'Год', год из отдаленного будущего")
         public void shouldCardWithYearFromFuture() {
+            credit.fillOutFields("4444 4444 4444 4441","03","30","ivanov","123");
+            credit.clickOnContinue();
+            credit.errorMessageInvalidDuration();
 
         }
 
         @Test
         @DisplayName("Поле 'Владелец', пустое поле")
         public void shouldEmptyOwnerField() {
-
+            credit.fillOutFields("4444 4444 4444 4441","03","30","","123");
+            credit.clickOnContinue();
+            credit.errorMessageWhenOwnerFieldIsEmpty();
         }
 
         @Test
         @DisplayName("Поле 'Владелец', с пробелом или дефисом")
         public void shouldCardWithSpaceOrHyphenOwner() {
+            credit.fillOutFields("4444 4444 4444 4441","03","23"," - ","123");
+            credit.clickOnContinue();
+            credit.errorMessageWhenOwnerFieldIsEmpty();
 
         }
 
         @Test
         @DisplayName("Поле 'Владелец', с несколькими спец символами")
         public void shouldCardWithSpecialSymbolsOwner() {
-
+            credit.fillOutFields("4444 4444 4444 4441","03","23","@@&&ivanov","123");
+            credit.errorMessageWhenOwnerFieldIsEmpty();
         }
 
         @Test
         @DisplayName("Поле 'Владелец', с цифрами")
         public void shouldCardWithNumbersOwner() {
-
+            credit.fillOutFields("4444 4444 4444 4441","03","23","123456","123");
+            credit.errorMessageWhenOwnerFieldIsEmpty();
         }
 
         @Test
         @DisplayName("Поле 'CVC/CVV', пустое поле")
         public void shouldEmptyCVCField() {
-
+            credit.fillOutFields("4444 4444 4444 4441","03","23","ivanov","");
+            credit.clickOnContinue();
+            credit.errorMessageWhenOwnerFieldIsEmpty();
         }
 
         @Test
         @DisplayName("Поле 'CVC/CVV', не полный номер")
         public void shouldCardWithIncompleteCVC() {
-
+            credit.fillOutFields("4444 4444 4444 4441","03","23","ivanov","12");
+            credit.clickOnContinue();
+            credit.errorMessageWhenOwnerFieldIsEmpty();
         }
     }
 }

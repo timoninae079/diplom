@@ -23,22 +23,23 @@ java -jar artifacts/aqa-shop.jar
 
 3. В новой вкладке терминала запустить тестируемое приложение:
 
-   Для MySQL:
+     Для MySQL:
 
- java -Dspring.datasource.url=jdbc:mysql://localhost:3306/app -jar artifacts/aqa-shop.jar
+    java -Dspring.datasource.url=jdbc:mysql://localhost:3306/app -jar artifacts/aqa-shop.jar
 
-   Для PostgreSQL:
+    Для PostgreSQL:
 
-java -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app -jar artifacts/aqa-shop.jar
+    java -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app -jar artifacts/aqa-shop.jar
+
 #### Запуск тестов:
+    
 В новой вкладке терминала запустить тесты:
 
-./gradlew clean test allureReport -Dheadless=true
+   ./gradlew clean test allureReport -Dheadless=true
 
    ./gradlew clean test -Ddb.url=jdbc:mysql://localhost:3306/app
 
-  ./gradlew clean test -Ddb.url=jdbc:postgresql://localhost:5432/app
+   ./gradlew clean test -Ddb.url=jdbc:postgresql://localhost:5432/app
 
 #### Для просмотра отчета Allure в терминале ввести команду:
-
    ./gradlew allureServe

@@ -1,5 +1,6 @@
 package ru.netology.page;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.data.DataGenerator;
 
@@ -48,6 +49,10 @@ public class CreditPage {
         buttonContinue.click();
     }
 
+    public void clickOnContinue() {
+        buttonContinue.click();
+    }
+
     public void errorMessageInvalidFormat() {
 
         errorFormat.shouldBe(visible, Duration.ofSeconds(2));
@@ -59,6 +64,7 @@ public class CreditPage {
     }
 
     public void expectApprovalFromBank() {
+
         bankApproved.should(visible, Duration.ofSeconds(20));
     }
 
@@ -76,9 +82,15 @@ public class CreditPage {
         fillOutFields(info.getNumberCard(), info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
     }
 
-    public void bankApproved() {
-        bankApproved.shouldBe(visible);
+    public void fieldCardIsEmpty() {
+        fieldCardNumber.shouldBe(Condition.empty);
     }
+
+    public void errorBankRefusal() {
+
+        errorBankRefusal.shouldBe(visible);
+    }
+
 }
 
 

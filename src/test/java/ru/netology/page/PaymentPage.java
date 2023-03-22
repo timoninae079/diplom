@@ -1,6 +1,7 @@
 package ru.netology.page;
 
 import com.codeborne.selenide.SelenideElement;
+import ru.netology.data.DataGenerator;
 
 import java.time.Duration;
 
@@ -25,8 +26,6 @@ public class PaymentPage {
 
     final SelenideElement buttonContinue = $(byText("Продолжить"));
 
-    final SelenideElement bankApproved = $(withText("Операция одобрена Банком."));
-
     final SelenideElement errorFormat = $(withText("Неверный формат"));
 
     final SelenideElement errorBankRefusal = $(withText("Ошибка! Банк отказал в проведении операции."));
@@ -49,17 +48,24 @@ public class PaymentPage {
         errorFormat.shouldBe(visible, Duration.ofSeconds(2));
     }
     public void errorMessageWhenOwnerFieldIsEmpty() {
+
         requiredField.shouldBe(visible, Duration.ofSeconds(2));
     }
-    public void expectApprovalFromBank() {
-        bankApproved.should(visible, Duration.ofSeconds(20));
+
+    public void sendingData(DataGenerator.CardInfo info) {
+        fillOutFields(info.getNumberCard(), info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
     }
 
     public void errorMessageInvalidDuration() {
+
         invalidDurationCard.shouldBe(visible);
     }
 
     public void errorMessageInvalidYear() {
+
         cardExpired.shouldBe(visible);
+    }
+    public void clickOnContinue (){
+        buttonContinue.click ();
     }
 }
