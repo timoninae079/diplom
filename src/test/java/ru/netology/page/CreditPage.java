@@ -83,6 +83,7 @@ public class CreditPage {
     }
 
     public void fieldCardIsEmpty() {
+
         fieldCardNumber.shouldBe(Condition.empty);
     }
 
@@ -91,6 +92,9 @@ public class CreditPage {
         errorBankRefusal.shouldBe(visible);
     }
 
+    public void cardCredit() {
+        buttonContinue.click();
+    }
 }
 
 

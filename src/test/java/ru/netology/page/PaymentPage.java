@@ -13,6 +13,8 @@ import static com.codeborne.selenide.Selenide.$$;
 
 public class PaymentPage {
 
+    final SelenideElement bankApproved = $(withText("Операция одобрена Банком."));
+
     final SelenideElement buyHeading = $(byText("Оплата по карте"));
     final SelenideElement fieldCardNumber = $("[placeholder='0000 0000 0000 0000']");
 
@@ -45,6 +47,7 @@ public class PaymentPage {
         buttonContinue.click();
     }
     public void errorMessageInvalidFormat() {
+
         errorFormat.shouldBe(visible, Duration.ofSeconds(2));
     }
     public void errorMessageWhenOwnerFieldIsEmpty() {
@@ -52,9 +55,7 @@ public class PaymentPage {
         requiredField.shouldBe(visible, Duration.ofSeconds(2));
     }
 
-    public void sendingData(DataGenerator.CardInfo info) {
-        fillOutFields(info.getNumberCard(), info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
-    }
+
 
     public void errorMessageInvalidDuration() {
 
@@ -66,6 +67,18 @@ public class PaymentPage {
         cardExpired.shouldBe(visible);
     }
     public void clickOnContinue (){
+
         buttonContinue.click ();
+            }
+    public void expectApprovalFromBank() {
+
+        bankApproved.should(visible, Duration.ofSeconds(20));
+    }
+
+    public void sendingData(DataGenerator.CardInfo info) {
+    }
+    public void errorBankRefusal() {
+
+        errorBankRefusal.shouldBe(visible);
     }
 }
