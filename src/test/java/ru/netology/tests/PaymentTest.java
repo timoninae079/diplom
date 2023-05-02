@@ -20,6 +20,8 @@ public class PaymentTest {
     private MainPage mainPage;
     private PaymentPage paymentPage;
 
+    private final CardInfo validCard = getApprovedCard();
+
 
     @BeforeAll
     public static void setUpAll() {
@@ -63,7 +65,7 @@ public class PaymentTest {
     @Test
     @DisplayName("Поле 'Номер карты', пустое поле")
     public void shouldEmptyCardNumberField() {
-        paymentPage.fillOutFields("", "03", "23", "Ivanov", "123");
+        paymentPage.fillOutFields("", validCard.getMonth(), validCard.getYear(), validCard.getOwner(), validCard.getCvc());
         paymentPage.errorMessageInvalidFormat();
     }
 
@@ -115,7 +117,7 @@ public class PaymentTest {
     @Test
     @DisplayName("Поле 'Год', пустое поле")
     public void shouldEmptyYearField() {
-        paymentPage.fillOutFields("4444 4444 4444 4441", "11", "", "Ivanov", "123");
+        paymentPage.fillOutFields(validCard.getNumberCard(), validCard.getMonth(), "", validCard.getOwner(), validCard.getCvc());
         paymentPage.errorMessageInvalidFormat();
     }
 
@@ -136,7 +138,7 @@ public class PaymentTest {
     @Test
     @DisplayName("Поле 'Владелец', пустое поле")
     public void shouldEmptyOwnerField() {
-        paymentPage.fillOutFields("4444 4444 4444 4441", "11", "24", "", "123");
+        paymentPage.fillOutFields(validCard.getNumberCard(), validCard.getMonth(), validCard.getYear(), "", validCard.getCvc());
         paymentPage.errorMessageWhenOwnerFieldIsEmpty();
     }
 
@@ -167,7 +169,7 @@ public class PaymentTest {
     @Test
     @DisplayName("Поле 'CVC/CVV', пустое поле")
     public void shouldEmptyCVCField() {
-        paymentPage.fillOutFields("4444 4444 4444 4441", "11", "24", "ivanov", "");
+        paymentPage.fillOutFields(validCard.getNumberCard(), validCard.getMonth(), validCard.getYear(), validCard.getOwner(), "");
         paymentPage.errorMessageInvalidFormat();
     }
 

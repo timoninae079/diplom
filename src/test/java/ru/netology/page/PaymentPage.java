@@ -46,15 +46,16 @@ public class PaymentPage {
         fieldCvc.setValue(cvc);
         buttonContinue.click();
     }
+
     public void errorMessageInvalidFormat() {
 
         errorFormat.shouldBe(visible, Duration.ofSeconds(2));
     }
+
     public void errorMessageWhenOwnerFieldIsEmpty() {
 
         requiredField.shouldBe(visible, Duration.ofSeconds(2));
     }
-
 
 
     public void errorMessageInvalidDuration() {
@@ -66,17 +67,22 @@ public class PaymentPage {
 
         cardExpired.shouldBe(visible);
     }
-    public void clickOnContinue (){
 
-        buttonContinue.click ();
-            }
+    public void clickOnContinue() {
+
+        buttonContinue.click();
+    }
+
     public void expectApprovalFromBank() {
 
         bankApproved.should(visible, Duration.ofSeconds(20));
     }
 
     public void sendingData(DataGenerator.CardInfo info) {
+
+        fillOutFields(info.getNumberCard(), info.getMonth(), info.getYear(), info.getOwner(), info.getCvc());
     }
+
     public void errorBankRefusal() {
 
         errorBankRefusal.shouldBe(visible);

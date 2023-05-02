@@ -82,7 +82,7 @@ public class CreditTest {
         @Test
         @DisplayName("Поле 'Месяц', пустое поле")
         public void shouldEmptyMonthField() {
-            creditPage.fillOutFields("4444 4444 4444 4441", "", "23", "ivanov", "123");
+            creditPage.fillOutFields(validCard.getNumberCard(), "", validCard.getYear(), validCard.getOwner(), validCard.getCvc());
             creditPage.clickOnContinue();
             creditPage.errorMessageInvalidFormat();
 
@@ -141,7 +141,7 @@ public class CreditTest {
         @Test
         @DisplayName("Поле 'Владелец', пустое поле")
         public void shouldEmptyOwnerField() {
-            creditPage.fillOutFields(validCard.getNumberCard(), "03", "30", "", "123");
+            creditPage.fillOutFields(validCard.getNumberCard(), validCard.getMonth(), validCard.getYear(), "", validCard.getCvc());
             creditPage.clickOnContinue();
             creditPage.errorMessageWhenOwnerFieldIsEmpty();
         }
@@ -172,7 +172,7 @@ public class CreditTest {
         @Test
         @DisplayName("Поле 'CVC/CVV', пустое поле")
         public void shouldEmptyCVCField() {
-            creditPage.fillOutFields("4444 4444 4444 4441", "03", "23", "ivanov", "");
+            creditPage.fillOutFields(validCard.getNumberCard(), validCard.getMonth(), validCard.getYear(), validCard.getOwner(), "");
             creditPage.clickOnContinue();
             creditPage.errorMessageWhenOwnerFieldIsEmpty();
         }

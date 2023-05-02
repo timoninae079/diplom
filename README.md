@@ -20,19 +20,19 @@
 
      Для MySQL:
 
-   java "-Dspring.datasource.url=jdbc:mysql://localhost:3306/app" -jar artifacts/aqa-shop.jar
+   java "-Db.url=jdbc:mysql://localhost:3306/app" -jar artifacts/aqa-shop.jar
     
 3. Для PostgreSQL:
 
-   java "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar
+   java "-Db.url=jdbc:postgresql://localhost:5432/app"-jar artifacts/aqa-shop.jar
 
 #### Запуск тестов:
     
 В новой вкладке терминала запустить тесты:
    
-   ./gradlew clean test "-Dspring.datasource.url=jdbc:mysql://localhost:3306/app"
+   ./gradlew clean test "-Db.url=jdbc:mysql://localhost:3306/app"
 
-   ./gradlew clean test "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" 
+   ./gradlew clean test "-Db.url=jdbc:postgresql://localhost:5432/app" 
 
 #### Для просмотра отчета Allure в терминале ввести команду:
   
