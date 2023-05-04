@@ -86,7 +86,6 @@ public class CreditTest {
             creditPage.clickOnContinue();
             creditPage.errorMessageInvalidFormat();
 
-
         }
 
         @Test
