@@ -14,25 +14,25 @@
 #### Запуск тестового приложения:
 1. Запустить Docker через терминал командой:
     
-   docker-compose up
+   docker-compose up -d
 
 2. В новой вкладке терминала запустить тестируемое приложение:
 
-     Для MySQL:
+   Для PostgreSQL:
 
-   java "-Db.url=jdbc:mysql://localhost:3306/app" -jar artifacts/aqa-shop.jar
+   java "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar
     
-3. Для PostgreSQL:
+3. Для MySQL:
 
-   java "-Db.url=jdbc:postgresql://localhost:5432/app"-jar artifacts/aqa-shop.jar
+   java "-Dspring.datasource.url=jdbc:mysql://localhost:3306/app" -jar artifacts/aqa-shop.jar
 
 #### Запуск тестов:
     
 В новой вкладке терминала запустить тесты:
-   
-   ./gradlew clean test "-Db.url=jdbc:mysql://localhost:3306/app"
 
-   ./gradlew clean test "-Db.url=jdbc:postgresql://localhost:5432/app" 
+ ./gradlew clean test "-Ddb.url=jdbc:postgresql://localhost:5432/app"
+
+ ./gradlew clean test "-Ddb.url=jdbc:mysql://localhost:3306/app"
 
 #### Для просмотра отчета Allure в терминале ввести команду:
   

@@ -3,7 +3,7 @@ services:
   mysqldb:
     image: mysql:latest
     ports:
-      - '3306:3306'
+      - '3366:3366'
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=app

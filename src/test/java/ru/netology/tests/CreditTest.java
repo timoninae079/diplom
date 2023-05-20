@@ -35,13 +35,13 @@ public class CreditTest {
     public void shouldCreditValidCard() {
         var info = getApprovedCard();
         creditPage.sendingData(info);
+        creditPage.expectApprovalFromBank();
         var expected = "APPROVED";
         var creditRequestInfo = getCreditRequestInfo();
         var orderInfo = getOrderInfo();
         assertEquals(expected, creditRequestInfo.getStatus());
         assertEquals(creditRequestInfo.getBank_id(), orderInfo.getCredit_id());
-        //Проверка вывода соответствующего уведомления пользователю на странице покупок:
-        creditPage.errorBankRefusal();
+
     }
 
     @Test
@@ -49,15 +49,13 @@ public class CreditTest {
     public void shouldCreditInvalidCard() {
         var info = getDeclinedCard();
         creditPage.sendingData(info);
+        creditPage.errorBankRefusal();
         var expected = "DECLINED";
         var creditRequestInfo = getCreditRequestInfo();
         var orderInfo = getOrderInfo();
-        // Проверка соответствия статуса в базе данных в таблице запросов кредита:
-        assertEquals(expected, creditRequestInfo.getStatus());
-        // Проверка соответствия в базе данных id в таблице запросов кредита и в таблице заявок:
-        assertEquals(creditRequestInfo.getBank_id(), orderInfo.getCredit_id());
-        //Проверка вывода соответствующего уведомления пользователю на странице покупок:
-        creditPage.errorBankRefusal();
+        assertEquals(expected,getCreditRequestInfo());
+        assertEquals(creditRequestInfo.getBank_id(),orderInfo.getCredit_id());
+
     }
 
     @Nested

@@ -57,9 +57,10 @@ public class PaymentTest {
         paymentPage.sendingData(info);
         paymentPage.errorBankRefusal();
         var expected = "DECLINED";
+        var paymentInfo = getPaymentInfo();
         var orderInfo = getOrderInfo();
-        assertEquals(expected, getPaymentInfo());
-        assertEquals(expected, orderInfo.getPayment_id());
+        assertEquals(expected, paymentInfo.getStatus());
+        assertEquals(paymentInfo.getTransaction_id(), orderInfo.getPayment_id());
     }
 
     @Test
