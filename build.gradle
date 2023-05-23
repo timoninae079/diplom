@@ -43,9 +43,10 @@ tasks.withType(JavaCompile) {
 test {
     useJUnitPlatform()
     systemProperty 'selenide.headless', System.getProperty('selenide.headless')
-    //systemProperty 'db.url', System.getProperty('db.url', 'jdbc:mysql://localhost:3306/app')
-    systemProperty 'db.url', System.getProperty('db.url', 'jdbc:postgresql://localhost:5432/app')
+    systemProperty 'db.url', System.getProperty('db.url', 'jdbc:mysql://localhost:3306/app')
+    //systemProperty 'db.url', System.getProperty('db.url', 'jdbc:postgresql://localhost:5432/app')
     systemProperty 'db.user', System.getProperty('db.user', "app")
     systemProperty 'db.password', System.getProperty('db.password', "pass")
+    systemProperty 'db.random_root_password', System.getProperty('db.random_root_password', "yes")
     systemProperty 'sut.url', System.getProperty('sut.url',"http://localhost:8080")
 }
